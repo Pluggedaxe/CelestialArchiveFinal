@@ -12,15 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./android/app/debug.keystore",
+      "googleServicesFile": "./android/app/google-services.json",
       "package": "com.celestialarchive.myapp"
     },
     "web": {
