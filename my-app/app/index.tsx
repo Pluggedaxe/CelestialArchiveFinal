@@ -24,7 +24,7 @@ const Index = () => {
               end: { x: 1, y: 0.5 },
             }}
             buttonStyle={styles.loginBtn}
-            title='LOG IN'
+            title='SIGN IN'
             onPress={() => router.push("/auth/login")}
           />
           <Text style={styles.createAccountBtn} onPress={() => router.push("/auth/signup")}>Create an Account</Text>
@@ -81,5 +81,7 @@ const styles = StyleSheet.create({
     fontSize: wp('3.4%'),
     color: 'white',
     textDecorationLine: 'underline'
-  }
+  },
+
+
 });

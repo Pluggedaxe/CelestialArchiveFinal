@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "116019692853",
+    "project_id": "celestialarchivefinal",
+    "storage_bucket": "celestialarchivefinal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116019692853:android:9e1a8405d271844785787c",
+        "android_client_info": {
+          "package_name": "com.celestialarchive.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116019692853-ndkeabme8aeuao89donvt94o042ui4fv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.celestialarchive.myapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "116019692853-v0sk76vvh2vpr9gnb94vfgao7msmfgjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrf09XXo5MpZoDVXsVF_eb3BBBdpcrzGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116019692853-v0sk76vvh2vpr9gnb94vfgao7msmfgjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

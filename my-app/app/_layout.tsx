@@ -31,7 +31,7 @@ export default function RootLayout() {
   );
 }
 
-// Styles for the loading container
+
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
