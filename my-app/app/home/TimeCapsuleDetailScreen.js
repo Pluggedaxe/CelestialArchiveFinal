@@ -42,7 +42,14 @@ const TimeCapsuleDetailScreen = () => {
   }, [capsuleId, date]);
 
   if (!capsule) {
-    return null;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>Error loading capsule details. Please try again later.</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   const renderPhoto = ({ item }) => (
@@ -126,6 +133,12 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#ff0000',
+    textAlign: 'center',
+    marginTop: hp('20%'),
   },
   flatListContent: {
     paddingBottom: hp('10%'),
