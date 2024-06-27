@@ -3,7 +3,12 @@ import auth from '@react-native-firebase/auth';
 import moment from 'moment';
 
 const getCurrentUser = () => {
-  return auth().currentUser;
+  const user = auth().currentUser;
+  if (!user) {
+    console.error('No authenticated user found.');
+    return null;
+  }
+  return user;
 };
 
 const getCurrentDate = () => {
@@ -12,26 +17,26 @@ const getCurrentDate = () => {
 
 const fetchTimeCapsules = async () => {
   const user = getCurrentUser();
-  if (user) {
-    const capsules = [];
-    const dateRangeDays = 30; // Adjust as needed
-    for (let i = -dateRangeDays; i <= dateRangeDays; i++) {
-      const date = moment().add(i, 'days').format('YYYY-MM-DD');
-      const snapshot = await firestore()
-        .collection('timeCapsule')
-        .doc(user.uid)
-        .collection(date)
-        .get();
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if (moment(data.openDate, 'MM/DD/YY').isSameOrBefore(moment())) {
-          capsules.push({ id: doc.id, ...data });
-        }
-      });
-    }
-    return capsules.sort((a, b) => moment(a.openDate, 'MM/DD/YY') - moment(b.openDate, 'MM/DD/YY'));
+  if (!user) {
+    return [];
   }
-  return [];
+  const capsules = [];
+  const dateRangeDays = 30; // Adjust as needed
+  for (let i = -dateRangeDays; i <= dateRangeDays; i++) {
+    const date = moment().add(i, 'days').format('YYYY-MM-DD');
+    const snapshot = await firestore()
+      .collection('timeCapsule')
+      .doc(user.uid)
+      .collection(date)
+      .get();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (moment(data.openDate, 'MM/DD/YY').isSameOrBefore(moment())) {
+        capsules.push({ id: doc.id, ...data });
+      }
+    });
+  }
+  return capsules.sort((a, b) => moment(a.openDate, 'MM/DD/YY') - moment(b.openDate, 'MM/DD/YY'));
 };
 
 const fetchPhotos = async (userId, date) => {
@@ -90,4 +95,4 @@ const addTimeCapsule = async (timeCapsule) => {
   }
 };
 
-export { fetchTimeCapsules, fetchPhotos, addPhoto, addTimeCapsule };
+export { fetchTimeCapsules, fetchPhotos, addPhoto, addTimeCapsule, getCurrentUser, getCurrentDate };

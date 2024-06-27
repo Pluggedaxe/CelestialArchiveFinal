@@ -1,4 +1,3 @@
-// TimeCapsuleContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { fetchTimeCapsules, addTimeCapsule } from './firebaseUtils';
 

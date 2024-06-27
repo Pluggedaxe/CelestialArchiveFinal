@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import { Text } from '@rneui/themed';
 import { useRouter } from 'expo-router';
-import { fetchPhotos } from './firebaseUtils';
+import { fetchPhotos, getCurrentUser, getCurrentDate } from './firebaseUtils';
 
 const Gallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -10,8 +10,16 @@ const Gallery = () => {
 
   useEffect(() => {
     const loadImages = async () => {
-      const fetchedPhotos = await fetchPhotos();
-      setPhotos(fetchedPhotos);
+      const user = getCurrentUser();
+      const currentDate = getCurrentDate();
+      if (user) {
+        try {
+          const fetchedPhotos = await fetchPhotos(user.uid, currentDate);
+          setPhotos(fetchedPhotos);
+        } catch (error) {
+          console.error('Error loading photos:', error);
+        }
+      }
     };
     loadImages();
   }, []);
@@ -30,7 +38,7 @@ const Gallery = () => {
               <View style={styles.imagePlaceholder}>
                 <Text>No Image</Text>
               </View>
-            )}  
+            )}
           </View>
         )}
         numColumns={3}
