@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+// firebaseUtils.js
+=======
+>>>>>>> c684697fab11d170d7d599d06e43ff524e929b91
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import moment from 'moment';

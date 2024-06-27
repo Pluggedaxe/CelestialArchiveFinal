@@ -42,6 +42,9 @@ const TimeCapsuleDetailScreen = () => {
   }, [capsuleId, date]);
 
   if (!capsule) {
+<<<<<<< HEAD
+    return null;
+=======
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>Error loading capsule details. Please try again later.</Text>
@@ -50,6 +53,7 @@ const TimeCapsuleDetailScreen = () => {
         </TouchableOpacity>
       </View>
     );
+>>>>>>> c684697fab11d170d7d599d06e43ff524e929b91
   }
 
   const renderPhoto = ({ item }) => (
@@ -134,12 +138,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+<<<<<<< HEAD
+=======
   errorText: {
     fontSize: 16,
     color: '#ff0000',
     textAlign: 'center',
     marginTop: hp('20%'),
   },
+>>>>>>> c684697fab11d170d7d599d06e43ff524e929b91
   flatListContent: {
     paddingBottom: hp('10%'),
   },
