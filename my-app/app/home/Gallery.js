@@ -30,7 +30,7 @@ const Gallery = () => {
               <View style={styles.imagePlaceholder}>
                 <Text>No Image</Text>
               </View>
-            )}
+            )}  
           </View>
         )}
         numColumns={3}
