@@ -5,6 +5,7 @@ import { ThemeProvider } from '@rneui/themed';
 import { useFonts, Outfit_400Regular, Outfit_700Bold } from '@expo-google-fonts/outfit';
 
 import { theme } from './theme.jsx';
+import { TimeCapsuleProvider } from './home/TimeCapsuleContext';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -22,15 +23,19 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="auth/login" />
-        <Stack.Screen name="auth/signup" />
-      </Stack>
+      <TimeCapsuleProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="auth/login" />
+          <Stack.Screen name="auth/signup" />
+          <Stack.Screen name="auth/forgotpassword" />
+          <Stack.Screen name="home/home" />
+          <Stack.Screen name="home/timecapsuleData" />
+        </Stack>
+      </TimeCapsuleProvider>
     </ThemeProvider>
   );
 }
-
 
 const styles = StyleSheet.create({
   loadingContainer: {

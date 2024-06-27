@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, Platform, StatusBar, View } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Alert, ToastAndroid } from 'react-native';
 import { Text, Input, Button, Icon } from '@rneui/themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Divider } from '@rneui/base';
-import auth from "@react-native-firebase/auth";
+import { router } from 'expo-router';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
+// Configure Google Signin
+GoogleSignin.configure({
+  webClientId: '116019692853-v0sk76vvh2vpr9gnb94vfgao7msmfgjt.apps.googleusercontent.com',
+});
 
 const Login = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -32,19 +37,61 @@ const Login = () => {
       valid = false;
     }
 
-    // Validate password (example: minimum 6 characters)
+    // Validate password
     if (!password || password === null) {
       setPasswordError('Please enter a valid password.');
       valid = false;
     }
 
     if (valid) {
+      // Firebase authentication signIn
+      auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          console.log('User signed in:', userCredential);
+          router.push("/home/home")
+          ToastAndroid.show("Login Successful", ToastAndroid.SHORT);
+          setEmail('')
+          setPassword('')
+        })
+        .catch((error) => {
+          // Display an alert box with a generic message
+          Alert.alert(
+            'Authentication Error',
+            'Authentication failed. Please check your credentials and try again.',
+            [{ text: 'OK' }]
+          );
 
+          // Optionally log the specific error for internal debugging
+          console.debug('Detailed error:', error);
+        });
+    }
+  };
 
+  const onGoogleButtonPress = async () => {
+    try {
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
+      // Get the user's ID token
+      const { idToken } = await GoogleSignin.signIn();
 
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
+      // Sign-in the user with the credential
+      const userCredential = await auth().signInWithCredential(googleCredential);
+      console.log('Signed in with Google:', userCredential);
+      router.push("/home/home")
+      ToastAndroid.show("Login Successful", ToastAndroid.SHORT);
+    } catch (error) {
+      Alert.alert(
+        'Google Sign-In Error',
+        'Failed to sign in with Google. Please try again later.',
+        [{ text: 'OK' }]
+      );
 
+      // Optionally log the specific error for internal debugging
+      console.debug('Detailed error:', error);
     }
   };
 
@@ -61,7 +108,7 @@ const Login = () => {
         value={email}
         onChangeText={setEmail}
         leftIcon={{ type: 'ionicon', name: 'mail-outline' }}
-        errorMessage={emailError} // Display email error
+        errorMessage={emailError}
         errorStyle={styles.errorText}
       />
 
@@ -74,11 +121,11 @@ const Login = () => {
         onChangeText={setPassword}
         secureTextEntry={true}
         leftIcon={{ type: 'ionicon', name: 'lock-closed-outline' }}
-        errorMessage={passwordError} // Display password error
+        errorMessage={passwordError}
         errorStyle={styles.errorText}
       />
 
-      <Text style={styles.forgotPasswordTxt}>Forgot Password?</Text>
+      <Text style={styles.forgotPasswordTxt} onPress={() => router.push('/auth/forgotpassword')}>Forgot Password?</Text>
 
       <Button
         ViewComponent={LinearGradient}
@@ -89,7 +136,7 @@ const Login = () => {
         }}
         buttonStyle={styles.loginBtn}
         title='LOG IN'
-        onPress={handleLogin} // Handle the login
+        onPress={handleLogin}
       />
 
       <Divider style={styles.DividerStyle} />
@@ -102,7 +149,9 @@ const Login = () => {
           start: { x: 0, y: 0.5 },
           end: { x: 1, y: 0.5 },
         }}
-        radius={"sm"} type="solid"
+        radius="sm"
+        type="solid"
+        onPress={onGoogleButtonPress}
       >
         <Icon
           name="google"
@@ -115,7 +164,7 @@ const Login = () => {
 
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpTxt}>Don't have an account?</Text>
-        <Text style={styles.signUpBtn}> Sign Up</Text>
+        <Text style={styles.signUpBtn} onPress={() => router.push('/auth/signup')}> Sign Up</Text>
       </View>
     </SafeAreaView>
   );
